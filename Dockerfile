@@ -8,8 +8,6 @@ ARG NODE_VERSION
 
 MAINTAINER Peter Nemere <peter.nemere@qut.edu.au>
 
-COPY ./config ~/.kube/config
-COPY ./config /root/.kube/config
 # Generic tools
 RUN apt-get -qq update && \
 apt-get install -q -y zip unzip jq groff less python3-pip software-properties-common g++ gcc git wget cmake protobuf-compiler unzip make curl libtool automake autoconf && \
