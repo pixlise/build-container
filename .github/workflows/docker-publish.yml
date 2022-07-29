@@ -81,7 +81,8 @@ jobs:
         with:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags }}
+          #tags: ${{ steps.meta.outputs.tags }}
+          tags: pixlise/build-container:golang-${{env.GOLANG_VERSION}}-protoc-${{env.PROTOC_VERSION}}-protobuf-${{env.PROTOBUF_CPP_VERSION}}-angular-${{env.ANGULAR_VERSION}}-nodejs-${{env.NODE_VERSION}}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             NODE_VERSION=${{env.NODE_VERSION}}
