@@ -7,29 +7,28 @@ name: Docker
 
 on:
   schedule:
-    - cron: '27 18 * * *'
+    - cron: "27 18 * * *"
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ["v*.*.*"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
-  PROTOC_VERSION: 3.7.1
-  PROTOBUF_CPP_VERSION: 3.11.4
-  ANGULAR_VERSION: 13.1.2
-  GOLANG_VERSION: "1.18"
-  NODE_VERSION: 16
-
+  PROTOC_VERSION: 24.3
+  PROTOC_GEN_GO_VERSION: 1.28.1
+  PROTOBUF_CPP_VERSION: 3.19.3
+  ANGULAR_VERSION: 16.1.0
+  GOLANG_VERSION: "1.21"
+  NODE_VERSION: 18
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,8 +47,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: sigstore/cosign-installer@7e0881f8fe90b25e305bbf0309761e9314607e25
         with:
-          cosign-release: 'v1.9.0'
-
+          cosign-release: "v1.9.0"
 
       # Workaround: https://github.com/docker/build-push-action/issues/461
       - name: Setup Docker buildx
