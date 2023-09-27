@@ -1,6 +1,8 @@
 ARG GOLANG_VERSION
 
 FROM golang:$GOLANG_VERSION
+
+ARG PROTOC_GEN_GO_VERSION
 ARG PROTOC_VERSION
 ARG PROTOBUF_CPP_VERSION
 ARG ANGULAR_VERSION
@@ -14,7 +16,7 @@ apt-get install -q -y zip unzip jq groff less python3-pip software-properties-co
 rm -rf /var/lib/apt/lists/* && rm -rf /var/cache/apt/archives/*
 
 # Setup for running protobuf compiler
-RUN curl -L -o protoc.zip https://github.com/google/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip && \
+RUN curl -L -o protoc.zip "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip" && \
 unzip protoc.zip -d /tmp/protoc3 && \
 mv /tmp/protoc3/bin/* /usr/local/bin/ && \
 mv /tmp/protoc3/include/* /usr/local/include/ && \
@@ -22,12 +24,20 @@ rm -rf /tmp/protoc3
 
 
 ########################################
-# NodeJS 12
+# NodeJS
 ########################################
 
-RUN curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - && \
-apt -y install nodejs && \ 
-node --version && npm --version
+RUN set -uex; \
+    apt-get update; \
+    apt-get install -y ca-certificates curl gnupg; \
+    mkdir -p /etc/apt/keyrings; \
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+     | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg; \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_${NODE_VERSION}.x nodistro main" \
+     > /etc/apt/sources.list.d/nodesource.list; \
+    apt-get update; \
+    apt-get install nodejs -y; \ 
+    node --version && npm --version
 
 
 ########################################
@@ -51,7 +61,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 # Python libraries
 ########################################
 
-RUN pip3 install boto3 pyyaml python-gitlab semver jinja2
+RUN pip3 install --break-system-packages boto3 pyyaml python-gitlab semver jinja2
 
 
 ########################################
@@ -62,7 +72,7 @@ RUN pip3 install boto3 pyyaml python-gitlab semver jinja2
 RUN go install github.com/jstemmer/go-junit-report@v0.9.1
 
 # Go protobuf libs
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v${PROTOC_GEN_GO_VERSION}
 
 
 ########################################
