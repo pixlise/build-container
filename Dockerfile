@@ -72,7 +72,7 @@ RUN pip3 install --break-system-packages boto3 pyyaml python-gitlab semver jinja
 RUN go install github.com/jstemmer/go-junit-report@v0.9.1
 
 # Go protobuf libs
-RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v${PROTOC_GEN_GO_VERSION}
+RUN go install "google.golang.org/protobuf/cmd/protoc-gen-go@v${PROTOC_GEN_GO_VERSION}"
 
 
 ########################################
