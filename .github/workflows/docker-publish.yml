@@ -89,6 +89,7 @@ jobs:
             NODE_VERSION=${{env.NODE_VERSION}}
             GOLANG_VERSION=${{env.GOLANG_VERSION}}
             PROTOC_VERSION=${{env.PROTOC_VERSION}}
+            PROTOC_GEN_GO_VERSION=${{env.PROTOC_GEN_GO_VERSION}}
             PROTOBUF_CPP_VERSION=${{env.PROTOBUF_CPP_VERSION}}
             ANGULAR_VERSION=${{env.ANGULAR_VERSION}}
 
