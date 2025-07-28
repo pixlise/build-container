@@ -60,8 +60,7 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 ########################################
 # Python libraries
 ########################################
-
-RUN pip3 install --break-system-packages boto3 pyyaml python-gitlab semver jinja2
+RUN pip3 install boto3 pyyaml python-gitlab semver jinja2
 
 
 ########################################
